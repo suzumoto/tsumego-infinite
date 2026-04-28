@@ -16,7 +16,48 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.DS_Store# ========================
+# 機密情報 (最重要)
+# ========================
+.env
+*.env
+.env.*
+!.env.example
+
+# ========================
+# バックエンド (Python / FastAPI)
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# （任意）もしローカルの data フォルダを除外したい場合は以下を有効化
+tsumego-backend/data/
+
+# ========================
+# フロントエンド (Node.js / React / Vite)
+# ========================
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# パッケージマネージャーのログ
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ========================
+# OS・エディタ関連
+# ========================
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
@@ -26,3 +67,4 @@ dist-ssr
 .env
 venv/
 __pycache__/
+tsumego-backend/data

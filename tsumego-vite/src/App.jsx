@@ -201,7 +201,7 @@ export default function App() {
         )}
       </div>
 
-      <div className="min-h-[4rem] w-full max-w-lg mb-4 flex flex-col justify-end">
+      <div className="min-h-16 w-full max-w-lg mb-4 flex flex-col justify-end">
         {status === 'result' && activeComment && (
           <div className="bg-slate-800/80 border-l-4 border-blue-500 p-3 rounded-r-lg shadow-inner">
             <p className="text-sm text-slate-200 leading-relaxed">
