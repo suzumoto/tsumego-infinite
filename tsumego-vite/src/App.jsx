@@ -41,7 +41,7 @@ export default function App() {
     setIsLoading(true);
     try {
       // 自分のEloに近い問題をリクエスト
-      const response = await fetch(`http://localhost:8000/api/problem/next?user_elo=${userElo}`);
+      const response = await fetch(`https://tsumego-infinite.onrender.com/api/problem/next?user_elo=${userElo}`);
       const data = await response.json();
       
       setProblem(data);
@@ -75,7 +75,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/rating/update', {
+      const response = await fetch('https://tsumego-infinite.onrender.com/api/rating/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
