@@ -8,7 +8,7 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    print("エラー: 環境変数 DATABASE_URL が設定されていません。.envファイルを確認してください。")
+    print("エラー: 環境変数 DATABASE_URL が設定されていません。")
     exit(1)
 
 # データベース接続設定
@@ -16,7 +16,6 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# main.py と同じモデル定義
 class ProblemModel(Base):
     __tablename__ = "problems"
     id = Column(Integer, primary_key=True, index=True)
@@ -35,37 +34,44 @@ def import_sgfs():
         return
 
     files = [f for f in os.listdir(data_dir) if f.endswith(".sgf")]
-    if not files:
-        print(f"{data_dir} 内にSGFファイルが見つかりません。")
-        return
-
+    
     # テーブルが存在しない場合は作成
     Base.metadata.create_all(bind=engine)
 
     added_count = 0
+    updated_count = 0
+
     for filename in files:
-        # 既に同じファイル名が登録されているかチェック（重複登録の防止）
-        existing = db.query(ProblemModel).filter(ProblemModel.filename == filename).first()
-        if existing:
-            print(f"スキップ: {filename} (既に登録されています)")
-            continue
-            
         filepath = os.path.join(data_dir, filename)
         with open(filepath, "r", encoding="utf-8") as f:
-            content = f.read()
+            new_content = f.read()
             
-        new_prob = ProblemModel(
-            filename=filename,
-            sgf_content=content,
-            elo=1500  # 初期レーティング
-        )
-        db.add(new_prob)
-        added_count += 1
-        print(f"登録: {filename}")
+        # 既存のレコードをファイル名で検索
+        existing = db.query(ProblemModel).filter(ProblemModel.filename == filename).first()
+
+        if existing:
+            # 内容が変更されている場合のみ更新
+            if existing.sgf_content != new_content:
+                existing.sgf_content = new_content
+                updated_count += 1
+                print(f"更新: {filename} (内容の変更を検知)")
+            else:
+                # 内容が同じなら何もしない
+                pass
+        else:
+            # 新規登録
+            new_prob = ProblemModel(
+                filename=filename,
+                sgf_content=new_content,
+                elo=1500
+            )
+            db.add(new_prob)
+            added_count += 1
+            print(f"新規登録: {filename}")
         
     db.commit()
     db.close()
-    print(f"\n完了! {added_count} 件のSGFファイルをデータベースに新しく登録しました。")
+    print(f"\n完了! 新規: {added_count} 件 / 更新: {updated_count} 件")
 
 if __name__ == "__main__":
     import_sgfs()
