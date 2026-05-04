@@ -68,3 +68,61 @@ Thumbs.db
 venv/
 __pycache__/
 tsumego-backend/data
+
+# =========================
+# CMake & Build Directories
+# =========================
+build/
+build-*/
+out/
+bin/
+
+# =========================
+# CMake Generated Files
+# =========================
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+Testing/
+
+# =========================
+# CMake FetchContent (GoogleTest等)
+# =========================
+_deps/
+
+# =========================
+# Compiled Object files & Libraries
+# =========================
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# =========================
+# Executables
+# =========================
+*.exe
+*.out
+*.app
+
+# =========================
+# VSCode & IDEs
+# =========================
+.vscode/
+*.swp
+*.swo
+.idea/
+
+# =========================
+# OS Specific
+# =========================
+.DS_Store
+Thumbs.db
